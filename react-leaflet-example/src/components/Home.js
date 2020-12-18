@@ -4,8 +4,8 @@ import { Link } from 'react-router-dom';
 export const Home = () => {
 
     const [state, setState] = useState({
-        latitude: 0,
         longitude: 0,
+        latitude: 0,
     });
 
     useEffect(() => {
@@ -17,7 +17,7 @@ export const Home = () => {
                 })
             },
             function (error) {
-                console.log(error);
+                console.error("Error Code = " + error.code + " - " + error.message);
             },
             {
                 enableHighAccuracy: true
@@ -30,10 +30,11 @@ export const Home = () => {
             <h1>Geolocation</h1>
             <p>longitude: {state.longitude}</p>
             <p>latitude: {state.latitude}</p>
-            <Link to={{
-                pathname: '/map',
-                state
-            }}
+            <Link 
+                to={{
+                    pathname: "/map",
+                    state,
+                }}
             >
                 See my location
             </Link>

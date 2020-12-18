@@ -1,5 +1,6 @@
 import React from 'react';
 import { Marker } from 'react-leaflet';
+import { MarkerPopup } from './MarkerPopup';
 import { IconLocation } from './IconLocation';
 
 export const Markers = ({ places }) => {
@@ -9,10 +10,13 @@ export const Markers = ({ places }) => {
                     key={ i }
                     position={ place.geometry }
                     icon={ IconLocation }
-                />
+                >
+                    <MarkerPopup place={ place }/>
+                </Marker>
     });
 
     return (
         markers
     );
+    
 };

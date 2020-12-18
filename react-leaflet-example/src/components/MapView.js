@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { useHistory, useLocation } from 'react-router-dom';
-import { MapContainer, TileLayer } from 'react-leaflet'; 
+import { Map, TileLayer } from 'react-leaflet'; 
 import 'leaflet/dist/leaflet.css';
 import { Markers } from './Markers';
 import { places } from './../assets/data.json';
@@ -12,7 +12,8 @@ export const MapView = () => {
             lat: '52.52437',
             lng: '13.41053'
         },
-        zoom: 13
+        zoom: 13,
+        places
     });
 
     const location = useLocation();
@@ -26,21 +27,21 @@ export const MapView = () => {
             };
             setState({
                 ...state,
-                currentLocation
+                currentLocation,
+                places: state.places.push({
+                    name: "New",
+                    geometry: [currentLocation.lat, currentLocation.lng],
+                }),
             });
-            console.log('state: ', state);
             history.replace({
                 pathname: '/map',
                 state: {}
             });
         }
-        console.log('state2: ', state);
-    }, []);
-
-    console.log('state3: ', state);
+    }, [state, history, location.state.latitude, location.state.longitude]);
     
     return (
-        <MapContainer 
+        <Map
             center={state.currentLocation}
             zoom={state.zoom}
         >
@@ -49,7 +50,7 @@ export const MapView = () => {
                 attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
             />
             <Markers places={ places } />
-        </MapContainer>
+        </Map>
     );
 
 };
